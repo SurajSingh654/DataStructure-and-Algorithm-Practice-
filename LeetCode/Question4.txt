@@ -1,0 +1,16 @@
+Link: https://leetcode.com/problems/contains-duplicate/
+
+Question: Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
+
+Approach: Use HashSet to store elements and also check for duplicates ...
+
+Solution:
+class Solution {
+    public boolean containsDuplicate(int[] nums) {
+        Set set = new HashSet<>();
+        for (int i: nums){
+           if(!set.add(i))return true;
+        }
+        return false;
+    }
+}
