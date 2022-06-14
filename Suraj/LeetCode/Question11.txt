@@ -1,0 +1,27 @@
+Link: https://leetcode.com/problems/trapping-rain-water/
+
+Question: Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+Approach: Create two auxiliary array leftMaxBuilding and RightMaxBuilding ... Find minHeight at specific index in leftMaxBuilding & RightMaxBuilding and subtract height Of the bulding at that position ....
+
+
+Solution:
+
+class Solution {
+    public int trap(int[] height) {
+        int length = height.length;
+       int[] leftMax = new int[length];
+       int[] rightMax = new int[length];
+        leftMax[0] = height[0];
+        rightMax[length-1] = height[length-1];
+        for(int i=1,j=length-2;j>=0;j--,i++){
+            leftMax[i] = Math.max(leftMax[i-1],height[i]);
+            rightMax[j] = Math.max(rightMax[j+1],height[j]);
+        }
+        int totalTrapWater = 0;
+        for(int i=0;i<length;i++){
+            totalTrapWater+=(Math.min(leftMax[i],rightMax[i])-height[i]);
+        }
+        return totalTrapWater;
+    }
+}

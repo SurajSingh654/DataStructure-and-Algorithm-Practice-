@@ -1,0 +1,74 @@
+Link: https://leetcode.com/problems/kth-largest-element-in-an-array/submissions/
+
+Question: Given an integer array nums and an integer k, return the kth largest element in the array.
+
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+ 
+
+
+Approach: 1
+Use QuickSelect Algorithm
+
+Solution: 1
+class Solution {
+    void swap(int[] nums,int firstIndex,int secondIndex){
+        if(nums[firstIndex]!=nums[secondIndex]){
+            nums[firstIndex] = nums[firstIndex]^nums[secondIndex];
+            nums[secondIndex] = nums[firstIndex]^nums[secondIndex];
+            nums[firstIndex] = nums[firstIndex]^nums[secondIndex];
+        }
+        
+    }
+    int quickSelect(int[] nums, int low, int high, int k) {
+  int pivot = low;
+
+  // use quick sort's idea
+  // put nums that are <= pivot to the left
+  // put nums that are  > pivot to the right
+  for (int j = low; j < high; j++) {
+    if (nums[j] <= nums[high]) {
+      swap(nums, pivot++, j);
+        // pivot++;
+    }
+  }
+        swap(nums, pivot, high);
+        
+  // count the nums that are > pivot from high
+  int count = high - pivot + 1;
+  // pivot is the one!
+  if (count == k) return nums[pivot];
+  // pivot is too small, so it must be on the right
+  if (count > k) return quickSelect(nums, pivot + 1, high, k);
+  // pivot is too big, so it must be on the left
+  return quickSelect(nums, low, pivot - 1, k - count);
+}
+
+    public int findKthLargest(int[] nums, int k) {
+        return quickSelect(nums, 0, nums.length - 1, k);
+    }
+}
+
+Approach: 2 
+
+Store element with their frequencies in TreeMap {in Reverse Sorted Order} ... Now check answer with the help of frequency ...
+
+Solution: 2
+
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+         Map<Integer, Integer> tm  = new TreeMap<>(Collections.reverseOrder());
+         for(int i=0;i<nums.length;i++){
+             tm.put(nums[i],tm.getOrDefault(nums[i],0)+1);
+         }
+        for(Map.Entry<Integer,Integer> e:tm.entrySet()){
+            if(e.getValue()<k){
+                 k-=e.getValue();
+                continue;
+            }
+                return e.getKey();    
+        }
+        
+       return 0; 
+    }
+}
