@@ -1,37 +1,34 @@
-Note: https://leetcode.com/problems/maximum-erasure-value/
+Link: https://leetcode.com/problems/product-of-array-except-self/
 
-Question: You are given an array of positive integers nums and want to erase a subarray containing unique elements. The score you get by erasing the subarray is equal to the sum of its elements.
+Question: Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
 
-Return the maximum score you can get by erasing exactly one subarray.
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
 
-An array b is called to be a subarray of a if it forms a contiguous subsequence of a, that is, if it is equal to a[l],a[l+1],...,a[r] for some (l,r).
+You must write an algorithm that runs in O(n) time and without using the division operation.
 
 
-Approach: Take 2 pointers start and end ... Sum array elements upto when you encounter the repeating element... When you encounter repeating element store the summation in maxValue ...Update start and end pointers and repeat same step ...
+Approach: Use rightProduct{SuffixProduct} & leftProduct{PrefixProduct} array concept ... 1
 
-Solution:
+Explanation: https://www.youtube.com/watch?v=UBkpyXgx0g0
+
+
+
+
+Solution: 1
 class Solution {
-    public int maximumUniqueSubarray(int[] nums) {
-        int[] arr = new int[10001];
-        int start = 0;
-        int end = 1;
-        int maxValue = nums[start];
-        int sum = nums[start];
-        arr[nums[start]]=1;
-        while(end<nums.length){
-            if(arr[nums[end]]==1){
-                maxValue = Math.max(sum,maxValue);
-               while(end<nums.length && start<nums.length && (nums[start]!=nums[end])){
-                   arr[nums[start]]=0;
-                   sum-=nums[start++];
-               }
-                arr[nums[start]]=0;
-                sum-=nums[start++];
-            }else{
-                arr[nums[end]]=1;
-                sum+=nums[end++];
-            }
+    public int[] productExceptSelf(int[] nums) {
+        int[] rightProduct = new int[nums.length+1];
+        int[] arr = new int[nums.length];
+        int leftProduct = 1;
+        rightProduct[nums.length]=1;
+        for(int i=1,j=nums.length-1;j>=0;i++,j--){
+            rightProduct[j] = nums[j]*rightProduct[j+1];
         }
-        return Math.max(sum,maxValue);
+        for(int i=0;i<nums.length;i++){
+            arr[i]=leftProduct*rightProduct[i+1];
+            leftProduct*=nums[i];
+        }
+        return arr;
+        
     }
 }

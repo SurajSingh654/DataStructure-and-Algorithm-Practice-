@@ -1,0 +1,31 @@
+Link: https://leetcode.com/problems/triangle/submissions/
+
+Question: Given a triangle array, return the minimum path sum from top to bottom.
+
+For each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.
+
+Explanation: https://www.youtube.com/watch?v=NPZn9jBrX8U
+
+Important: Remember MaxSubProduct SubArray always starts from First Index or from Last Index ... 
+
+Approach: Use CurrentProduct and Result variable ... When you encounter 0 , initialize currentProduct with 1 ...
+
+Solution: 
+class Solution {
+    public int maxProduct(int[] nums) {
+        int Result = Integer.MIN_VALUE;
+        int currentProduct = 1;
+        for(int value:nums){
+            currentProduct*=value;
+            Result = Math.max(Result,currentProduct);
+            currentProduct = (currentProduct==0)?1:currentProduct;
+        }
+        currentProduct = 1;
+        for(int i=nums.length-1;i>=0;i--){
+            currentProduct*=nums[i];
+            Result = Math.max(Result,currentProduct);
+            currentProduct = (currentProduct==0)?1:currentProduct;
+        }
+        return Result;
+    }
+}
