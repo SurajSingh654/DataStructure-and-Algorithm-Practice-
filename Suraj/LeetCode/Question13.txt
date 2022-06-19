@@ -1,4 +1,4 @@
-Link: https://leetcode.com/problems/triangle/submissions/
+Link: https://leetcode.com/problems/maximum-product-subarray/
 
 Question: Given a triangle array, return the minimum path sum from top to bottom.
 

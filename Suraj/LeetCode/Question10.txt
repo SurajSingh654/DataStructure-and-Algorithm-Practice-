@@ -72,3 +72,20 @@ class Solution {
        return 0; 
     }
 }
+
+Explanation: https://www.youtube.com/watch?v=yAs3tONaf3s
+
+
+Solution: 3 {Best Solution by Using PriorityQueue}
+class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(nums.length, (a, b) -> (b - a));
+        for (Integer i : nums) {
+            pq.add(i);
+        }
+        for(int i=0;i<k-1;i++){
+            pq.poll();
+        }
+        return pq.poll();
+    }
+}
